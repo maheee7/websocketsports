@@ -20,7 +20,7 @@ matchRouter.get('/', async (req, res) => {
     }
     catch (error) {
         console.log(error)
-        res.status(500).json({ error: error.message, details: JSON.stringfy(e) })
+        res.status(500).json({ error: error.message, details: parsed.error.issues })
     }
 
 })
@@ -28,11 +28,12 @@ matchRouter.get('/', async (req, res) => {
 matchRouter.post('/', async (req, res) => {
     const parsed = createMatchSchema.safeParse(req.body)
 
-    const { data: { startTime, endTime, homeScore, awayScore } } = parsed;
 
     if (!parsed.success) {
         return res.status(400).json({ message: 'Invalid data' })
     }
+   const { data: { startTime, endTime, homeScore, awayScore } } = parsed;
+
     try {
         const [event] = await db.insert(matches).values({
             startTime: new Date(startTime),
@@ -46,7 +47,7 @@ matchRouter.post('/', async (req, res) => {
     }
     catch (error) {
         console.log(error)
-        res.status(500).json({ error: error.message, details: JSON.stringfy(e) })
+        res.status(500).json({ error: error.message, details: parsed.error.issues })
     }
 
 

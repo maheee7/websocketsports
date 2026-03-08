@@ -9,6 +9,8 @@ export const MATCH_STATUS = {
     FINISHED: 'finished',
 };
 
+const isoDateString = z.iso.datetime();
+
 /**
  * Validates query parameters for listing matches.
  * - limit: Optional coerced positive integer, max 100.
